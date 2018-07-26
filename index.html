@@ -1,0 +1,116 @@
+<html>
+<head>
+    <script src="https://hammerjs.github.io/dist/hammer.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.js"></script>
+    
+
+    
+
+    <link rel="stylesheet" href="a3.css">
+</head>
+<body>
+    <h1>
+        Assignment 3
+    </h1>
+    <h2>Part 1: Map</h2>
+
+    <button onclick="Seemylocation()">See my location</button>
+
+    <select id="123" onchange="myMap()">
+        <option value="0">Ontario</option>
+        <option value="1">Alberta</option>
+        <option value="2">Saskatchewan</option>
+        <option value="3">British Columbia</option>
+        <option value="4">Yukon</option>
+        <option value="5">Quebec</option>
+        <option value="6">Northwest Territories</option>
+        <option value="7">Nunuvut</option>
+        <option value="8">Nova Scotia</option>
+        <option value="9">Manitoba</option>
+        <option value="10">Newfoundland and Labrador</option>
+        <option value="11">New Brunswick</option>
+        <option value="12">Prince Edward Island</option>
+
+    </select>
+
+    <div id="map" style="width: 400px; height: 400px; background-color: yellow;"></div>
+    <script src="A3.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?callback=myMap"></script>
+
+    <h2>tap, pan hammer</h2>
+    <div id="myElement"></div>
+    
+    <div class="center-center">
+            <div class="square">Press and hold</div>
+    </div>
+    <div class="flex-column center-center2">  
+            <header>Swipe Left or Right</header>
+            <div class="square2 center-center2"></div>
+    </div>  
+    <div> <h2>Javascipt API:Camera (Use google chrome)</h2>
+        <video id="video" width="640" height="480" autoplay></video>
+<button id="snap">Snap Photo</button>
+<canvas id="canvas" width="640" height="480"></canvas>
+    </div>
+<script>
+   var a=document.getElementById("canvas").getContext("2d"),b=document.getElementById("video");document.getElementById("snap").addEventListener("click",function(){a.drawImage(b,0,0,640,480)});b=document.getElementById("video");navigator.mediaDevices&&navigator.mediaDevices.getUserMedia&&navigator.mediaDevices.getUserMedia({video:!0}).then(function(c){b.src=window.URL.createObjectURL(c);b.play()});
+</script>
+    <script>
+        var myElement=document.getElementById("myElement"),mc=new Hammer(myElement);mc.get("pan").set({direction:Hammer.DIRECTION_ALL});mc.on("panleft panright panup pandown tap press",function(a){myElement.textContent=a.type+" gesture detected."});var myElement2=document.getElementById("myElement2"),mx=new Hammer.Manager(myElement2),pinch=new Hammer.Pinch,rotate=new Hammer.Rotate;pinch.recognizeWith(rotate);mx.add([pinch,rotate]);mx.on("pinch rotate",function(a){myElement.textContent+=a.type+" rotate worked "});
+        </script>
+
+        <script>
+          
+// Get a reference to an element
+var square = document.querySelector('.square');
+
+// Create a manager to manager the element
+var manager = new Hammer.Manager(square);
+
+// Create a recognizer
+var Press = new Hammer.Press({
+  time: 500
+});
+
+// Add the recognizer to the manager
+manager.add(Press);
+
+// Subscribe to desired event
+manager.on('press', function(e) {
+  e.target.classList.toggle('expand');
+});
+
+</script>
+<script>
+    // Get a reference to an element
+var square = document.querySelector('.square2');
+
+// Create a manager to manager the element
+var manager = new Hammer.Manager(square);
+
+// Create a recognizer
+var Swipe = new Hammer.Swipe();
+
+// Add the recognizer to the manager
+manager.add(Swipe);
+
+// Declare global variables to swiped correct distance
+var deltaX = 0;
+var deltaY = 0;
+
+// Subscribe to a desired event
+manager.on('swipe', function(e) {
+  deltaX = deltaX + e.deltaX;
+  var direction = e.offsetDirection;
+  var translate3d = 'translate3d(' + deltaX + 'px, 0, 0)';
+  
+  if (direction === 4 || direction === 2) {
+    e.target.innerText = deltaX;
+    e.target.style.transform = translate3d;
+  }
+});
+
+</script>
+</body>
+
+</html>
